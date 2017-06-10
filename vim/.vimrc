@@ -8,7 +8,8 @@
 " clang(for clang-format)
 " vim-nerdtree
 " vim-fcitx
-"
+" cscope
+
 so /usr/share/vim/vim80/defaults.vim
 set nu
 
