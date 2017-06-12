@@ -52,3 +52,9 @@ imap <C-K> <c-o>:pyf /usr/share/clang/clang-format.py<cr>
 :set autoindent 
 :set smartindent
 :set cindent
+
+" don't get your source code over 80 character per line
+" TODO: only enabe this for programming source code
+" TODO: only enable this if source codes have been over 80 character per line
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+let &colorcolumn=join(range(81,999),",")
