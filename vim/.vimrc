@@ -11,6 +11,13 @@
 " cscope
 
 so /usr/share/vim/vim80/defaults.vim
+call plug#begin('~/.vim/plugged')
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+call plug#end()
+
 set nu
 
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
@@ -21,7 +28,7 @@ set tm=500
 set hlsearch
 
 syntax enable
-set background=dark
+" set background=dark
 colorscheme solarized
 
 let g:ycm_confirm_extra_conf = 0
