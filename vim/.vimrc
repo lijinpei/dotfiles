@@ -16,6 +16,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'guns/xterm-color-table.vim'
 call plug#end()
 
 set nu
@@ -63,5 +64,6 @@ imap <C-K> <c-o>:pyf /usr/share/clang/clang-format.py<cr>
 " don't get your source code over 80 character per line
 " TODO: only enabe this for programming source code
 " TODO: only enable this if source codes have been over 80 character per line
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
+"highlight ColorColumn ctermbg=235 guibg=#2c2d27
+highlight ColorColumn ctermbg=222 guibg=#ffdf87
 let &colorcolumn=join(range(81,999),",")
