@@ -12,15 +12,18 @@
 
 so /usr/share/vim/vim80/defaults.vim
 call plug#begin('~/.vim/plugged')
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'elzr/vim-json'
+Plug 'pboettch/vim-cmake-syntax'
 " Plug 'guns/xterm-color-table.vim'
 call plug#end()
 
 set nu
-
+set showbreak=\ \ \ \ \ \ \ \ 
+" set noshowmode
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set guifont=Monospace\ 12
 set visualbell 
@@ -54,9 +57,9 @@ let g:clang_format_fallback_style = 'llvm'
 map <C-K> :pyf /usr/share/clang/clang-format.py<cr>
 imap <C-K> <c-o>:pyf /usr/share/clang/clang-format.py<cr>
 
-:set tabstop=8
+:set tabstop=4
 :set expandtab
-:set shiftwidth=8
+:set shiftwidth=4
 :set autoindent 
 :set smartindent
 :set cindent
@@ -67,3 +70,30 @@ imap <C-K> <c-o>:pyf /usr/share/clang/clang-format.py<cr>
 "highlight ColorColumn ctermbg=235 guibg=#2c2d27
 highlight ColorColumn ctermbg=222 guibg=#ffdf87
 let &colorcolumn=join(range(81,999),",")
+
+" clang-check
+function! ClangCheckImpl(cmd)
+  if &autowrite | wall | endif
+  echo "Running " . a:cmd . " ..."
+  let l:output = system(a:cmd)
+  cexpr l:output
+  cwindow
+  let w:quickfix_title = a:cmd
+  if v:shell_error != 0
+    cc
+  endif
+  let g:clang_check_last_cmd = a:cmd
+endfunction
+
+function! ClangCheck()
+  let l:filename = expand('%')
+  if l:filename =~ '\.\(cpp\|cxx\|cc\|c\)$'
+    call ClangCheckImpl("clang-check " . l:filename)
+  elseif exists("g:clang_check_last_cmd")
+    call ClangCheckImpl(g:clang_check_last_cmd)
+  else
+    echo "Can't detect file's compilation arguments and no previous clang-check invocation!"
+  endif
+endfunction
+
+nmap <silent> <F5> :call ClangCheck()<CR><CR>
